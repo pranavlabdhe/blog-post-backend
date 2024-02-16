@@ -2,9 +2,9 @@ import Post from '../models/post.model.js';
 import { errorHandler } from '../utils/error.js';
 
 export const create = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, 'You are not allowed to create a post'));
-  }
+  // if (!req.user.isAdmin) {
+  //   return next(errorHandler(403, 'You are not allowed to create a post'));
+  // }
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, 'Please provide all required fields'));
   }
@@ -70,6 +70,27 @@ export const getposts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getpostsOfUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const posts = await Post.find({ userId });
+    res.json(posts); // Send the posts
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    next(error); // Pass the error to the error handling middleware
+  }
+};
+export const allPost = async (req,res,next) => {
+  try {
+    // Fetch all posts from the database
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+}
 
 export const deletepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
