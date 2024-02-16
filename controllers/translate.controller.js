@@ -62,7 +62,7 @@
 
 import OpenAI from "openai";
 import { storage } from "../storage.js";
-const openai = new OpenAI({ apiKey:'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' });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY});
 
 export const textToSpeechFun = async (req, res, next) => {
     try {
