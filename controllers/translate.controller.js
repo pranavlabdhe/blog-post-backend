@@ -62,6 +62,8 @@
 
 import OpenAI from "openai";
 import { storage } from "../storage.js";
+import dotenv from 'dotenv';
+dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY});
 
 export const textToSpeechFun = async (req, res, next) => {
